@@ -3,6 +3,7 @@ package com.training.generics;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -15,12 +16,12 @@ import org.openqa.selenium.WebElement;
  */
 public class GenericMethods {
 	WebDriver driver ; 
-	
+
 	public GenericMethods(WebDriver driver){
 		this.driver = driver;
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * @param locator 
@@ -33,7 +34,7 @@ public class GenericMethods {
 	public WebElement getElement(String locator, String type){
 		WebElement element  = null;
 		type = type.toLowerCase();
-		
+
 		if(type.equals("id")){
 			element  =  driver.findElement(By.id(locator));
 		} else if(type.equals("css")){
@@ -52,10 +53,10 @@ public class GenericMethods {
 
 
 	}
-	
-	
+
+
 	// shall give if it has multiple entries as a list in DOM 
-	
+
 	public List<WebElement> getElementsAsList(String locator, String type){
 		type = type.toLowerCase();
 		if(type.equals("id")){
@@ -69,17 +70,24 @@ public class GenericMethods {
 		}// other TODO 
 		return null;
 	}
-	
+
 	// return true if element exists 
 	// this method works for us when we have more than 1 element 
 	// to be found for 
 	public boolean isElementFound(String locator, String type){
 		return getElementsAsList(locator, type).size()>0;
 	}
-	
+
 	// this method gives true only where there is an single entry 
 	// in the DOM 
 	public boolean checkSingleEntry(String locator, String type){
 		return getElementsAsList(locator, type).size() ==1;
+	}
+
+	public void highlightElement(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		//use executeScript() method and pass the arguments 
+		//Here i pass values based on css style. Yellow background color with solid red color border. 
+		js.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", element);
 	}
 }
